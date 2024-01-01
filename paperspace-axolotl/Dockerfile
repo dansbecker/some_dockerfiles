@@ -4,6 +4,8 @@ FROM winglian/axolotl:main-py3.10-cu118-2.0.1
 ENV LANG C.UTF-8
 ENV SHELL=/bin/bash
 ENV DEBIAN_FRONTEND=noninteractive
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64
+ENV BNB_CUDA_VERSION=
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-utils gcc make pkg-config apt-transport-https build-essential \
@@ -35,6 +37,9 @@ RUN apt-get install -y default-jre default-jdk
 # Commenting out for now
 # RUN git clone --depth 10 https://github.com/Kitware/CMake ~/cmake && \
 #    cd ~/cmake && ./bootstrap && make -j"$(nproc)" install
+
+
+ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
 
 # Expose ports and set the startup command
 EXPOSE 8888 6006
